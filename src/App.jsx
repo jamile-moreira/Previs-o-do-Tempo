@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 const App = () => {
   const [nomeDaCidade, setNomeDaCidade] = useState('')
   const [dadosDoClima, setDadosDoClima] = useState('')
+  const [erro, setErro] = useState('false')
 
   const pegarDadosDoClima = async () => {
     try {
@@ -11,12 +12,15 @@ const App = () => {
       )
       const data = await response.text()
       setDadosDoClima(data)
+      setErro(false)
     } catch (error) {
-      console.error('Erro ao pegar os dados:', error)
+      setErro(true)
     }
   }
   useEffect(() => {
-    pegarDadosDoClima()
+    if (nomeDaCidade) {
+      pegarDadosDoClima()
+    }
   }, [nomeDaCidade])
 
   return (
@@ -29,6 +33,7 @@ const App = () => {
         value={nomeDaCidade}
         onChange={(event) => setNomeDaCidade(event.target.value)}
       />
+      {erro === true ? <div>Erro</div> : <div>{dadosDoClima}</div>}
     </div>
   )
 }
