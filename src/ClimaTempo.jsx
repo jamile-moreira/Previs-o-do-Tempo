@@ -1,28 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
 export const ClimaTempo = () => {
-  const [nomeDaCidade, setNomeDaCidade] = useState("");
-  const [dadosDoClima, setDadosDoClima] = useState("");
-  const [erro, setErro] = useState(false);
+  const [nomeDaCidade, setNomeDaCidade] = useState('')
+  const [dadosDoClima, setDadosDoClima] = useState('')
+  const [erro, setErro] = useState('false')
 
   const pegarDadosDoClima = async () => {
     try {
       const response = await fetch(
         `https://wttr.in/${nomeDaCidade}?format=%t+%C+%w+%m`
-      );
-      const data = await response.text();
-      setDadosDoClima(data);
-      setErro(false);
+      )
+      const data = await response.text()
+      setDadosDoClima(data)
+      setErro(false)
     } catch (error) {
-      setErro(true);
+      setErro(true)
     }
-  };
-
+  }
   useEffect(() => {
     if (nomeDaCidade) {
-      pegarDadosDoClima();
+      pegarDadosDoClima()
     }
-  }, [nomeDaCidade]);
+  }, [nomeDaCidade])
 
   return (
     <div>
@@ -34,8 +33,7 @@ export const ClimaTempo = () => {
         value={nomeDaCidade}
         onChange={(event) => setNomeDaCidade(event.target.value)}
       />
-
-      {erro && !nomeDaCidade ? <div>Erro</div> : <div>{dadosDoClima}</div>}
+      {erro === true ? <div>Erro</div> : <div>{dadosDoClima}</div>}
     </div>
-  );
-};
+  )
+}
